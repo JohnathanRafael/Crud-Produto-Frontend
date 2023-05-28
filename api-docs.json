@@ -1,0 +1,256 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API CRUD PRODUTO",
+    "license": {
+      "name": "Apache License 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/v1/produto/{produtoCodigo}": {
+      "get": {
+        "tags": [
+          "produto-controller"
+        ],
+        "description": "Método utilizado para obter todos os dados de um produto por codigo",
+        "operationId": "ObterPorCodigo",
+        "parameters": [
+          {
+            "name": "produtoCodigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProdutoDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "produto-controller"
+        ],
+        "description": "Método utilizado para realizar a alteracao dos dados de um produto",
+        "operationId": "alterar",
+        "parameters": [
+          {
+            "name": "produtoCodigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProdutoDadosAlterarDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProdutoDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "produto-controller"
+        ],
+        "description": "Método utilizado para realizar a exclusao de um produto",
+        "operationId": "remover",
+        "parameters": [
+          {
+            "name": "produtoCodigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProdutoDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/produto": {
+      "get": {
+        "tags": [
+          "produto-controller"
+        ],
+        "description": "Listagem geral de produtos",
+        "operationId": "listAll",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProdutoListaDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "produto-controller"
+        ],
+        "description": "Método utilizado para realizar a inclusao de um produto",
+        "operationId": "incluir",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProdutoDadosAlterarDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProdutoDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ProdutoDadosAlterarDTO": {
+        "type": "object",
+        "properties": {
+          "produtoNome": {
+            "type": "string"
+          },
+          "produtoMarca": {
+            "type": "string"
+          },
+          "produtoCategoria": {
+            "type": "string"
+          },
+          "produtoValorVenda": {
+            "type": "number"
+          },
+          "produtoValorCusto": {
+            "type": "number"
+          }
+        }
+      },
+      "ProdutoDTO": {
+        "type": "object",
+        "properties": {
+          "produtoCodigo": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "produtoNome": {
+            "type": "string"
+          },
+          "produtoMarca": {
+            "type": "string"
+          },
+          "produtoCategoria": {
+            "type": "string"
+          },
+          "produtoValorVenda": {
+            "type": "number"
+          },
+          "produtoValorCusto": {
+            "type": "number"
+          },
+          "produtolancamento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statusProduto": {
+            "type": "string"
+          }
+        }
+      },
+      "ProdutoListaDTO": {
+        "type": "object",
+        "properties": {
+          "produtoCodigo": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "produtoNome": {
+            "type": "string"
+          },
+          "produtoValorVenda": {
+            "type": "number"
+          },
+          "produtoValorCusto": {
+            "type": "number"
+          },
+          "statusProduto": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicScheme": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

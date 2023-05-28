@@ -1,0 +1,55 @@
+<form
+  [formGroup]="formGroup"
+  (ngSubmit)="onSubmit()"
+  class="form"
+>
+  <mat-form-field>
+    <mat-label>Nome</mat-label>
+    <input matInput formControlName="produtoNome">
+    <mat-error *ngIf="handleError('produtoNome', 'required')">
+      O nome é obrigatório
+    </mat-error>
+    <mat-error *ngIf="handleError('produtoNome', 'minlength')">
+      Mínimo 3 caracteres
+    </mat-error>
+    <mat-error *ngIf="handleError('produtoNome', 'maxlength')">
+      Máximo 75 caracteres
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Marca</mat-label>
+    <input matInput formControlName="produtoMarca">
+    <mat-error *ngIf="handleError('produtoMarca', 'required')">
+      A marca é obrigatória
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Categoria</mat-label>
+    <input matInput formControlName="produtoCategoria">
+    <mat-error *ngIf="handleError('produtoCategoria', 'required')">
+      A cat. é obrigatória
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Preço de venda</mat-label>
+    <input matInput formControlName="produtoValorVenda">
+    <mat-error *ngIf="handleError('produtoValorVenda', 'required')">
+      Preco é obrigátorio
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Preço de custo</mat-label>
+    <input matInput formControlName="produtoValorCusto">
+    <mat-error *ngIf="handleError('produtoValorCusto', 'required')">
+      Preco é obrigátorio
+    </mat-error>
+  </mat-form-field>
+<button mat-raised-button type="submit">
+  <span>Salvar</span>
+</button>
+</form>
+

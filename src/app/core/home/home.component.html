@@ -1,0 +1,30 @@
+<mat-toolbar >
+  <button mat-button class="menu-button" routerLink="/">
+    <mat-icon>home</mat-icon>
+    <span>Início</span>
+  </button>
+  <button mat-button [matMenuTriggerFor]="cadastro" ><mat-icon>keyboard_arrow_down</mat-icon>Cadastros </button>
+  <mat-menu #cadastro="matMenu">
+    <button mat-menu-item routerLink="/home/cadastroProduto">Produtos</button>
+    <button mat-menu-item>Clientes</button>
+  </mat-menu>
+  <button mat-button [matMenuTriggerFor]="venda"><mat-icon>keyboard_arrow_down</mat-icon>Vendas</button>
+  <mat-menu #venda="matMenu">
+    <button mat-menu-item>Frente de Caixa</button>
+    <button mat-menu-item>Pedidos de Venda</button>
+  </mat-menu>
+
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon help-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon>help</mat-icon>
+  </button>
+
+</mat-toolbar>
+
+    <div class="content mat-elevation-z8">
+      <router-outlet></router-outlet>
+    </div>
+
