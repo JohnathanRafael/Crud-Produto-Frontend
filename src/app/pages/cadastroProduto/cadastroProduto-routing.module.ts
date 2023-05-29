@@ -15,6 +15,10 @@ export const cadastroProdutoRoutes: Routes = [
       {
         path: "novo",
         component: FormProdutoComponent
+      },
+      {
+        path: ":produtoCodigo",
+        component: FormProdutoComponent
       }
     ]
   }

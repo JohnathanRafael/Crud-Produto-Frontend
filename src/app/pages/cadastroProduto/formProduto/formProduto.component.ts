@@ -4,6 +4,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {ProdutoControllerService} from "../../../api/services/produto-controller.service";
 import {ProdutoDto} from "../../../api/models/produto-dto";
 import {ConfirmationDialog} from "../../../core/confirmation-dialog/confirmation-dialog.component";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageResponse} from "../../../api/models/message-response";
 
 @Component({
   selector: 'app-formProduto',
@@ -12,13 +14,21 @@ import {ConfirmationDialog} from "../../../core/confirmation-dialog/confirmation
 })
 export class FormProdutoComponent {
   formGroup!: FormGroup;
+  public readonly ACAO_INCLUIR = "INCLUIR";
+  public readonly ACAO_ALTERAR = "ALTERAR";
+
+  acao : string = this.ACAO_INCLUIR;
+  private codigo !: number;
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     public produtoService: ProdutoControllerService,
     private dialog: MatDialog,
   ) {
     this.createForm();
+    this.prepararEdicao();
   }
   createForm() {
     this.formGroup = this.formBuilder.group({
@@ -32,14 +42,25 @@ export class FormProdutoComponent {
 
   onSubmit() {
     if (this.formGroup.valid) {
-      console.log("Dados:",this.formGroup.value);
+      if (!this.codigo) {
+        this.realizarInclusao();
+      } else {
+        this.realizarEdicao()
+      }
+    }
+  }
+
+  private realizarInclusao() {
+    if (this.formGroup.valid) {
+      console.log("Dados:", this.formGroup.value);
       this.produtoService.incluir({body: this.formGroup.value})
-        .subscribe( retorno =>{
-          console.log("Retorno:",retorno);
-          this.confirmarInclusao(retorno);
-        }, erro =>{
-          console.log("Erro:"+erro);
-          this.falhaInclusao(erro);
+        .subscribe(retorno => {
+          console.log("Retorno:", retorno);
+          this.confirmarAcao(retorno, this.ACAO_INCLUIR);
+          this.atualizar();
+        }, erro => {
+          console.log("Erro:" + erro);
+          this.showError(erro.error, this.ACAO_INCLUIR);
         })
     }
   }
@@ -48,11 +69,11 @@ export class FormProdutoComponent {
     return this.formGroup.controls[controlName].hasError(errorName);
   };
 
-  confirmarInclusao(ProdutoDto: ProdutoDto) {
+  confirmarAcao(ProdutoDto: ProdutoDto, acao:String) {
     const dialogRef = this.dialog.open(ConfirmationDialog, {
       data: {
         titulo: 'Sucesso',
-        mensagem: `Inclusão de: ${ProdutoDto.produtoNome} (ID: ${ProdutoDto.produtoCodigo}) realizada com sucesso!`,
+        mensagem: `Ação de ${acao} dados: ${ProdutoDto.produtoNome} (ID: ${ProdutoDto.produtoCodigo}) realizada com sucesso!`,
         textoBotoes: {
           ok: 'ok',
         },
@@ -61,11 +82,11 @@ export class FormProdutoComponent {
 
   }
 
-  falhaInclusao(ProdutoDto: ProdutoDto) {
+  showError(erro:MessageResponse, acao: string) {
     const dialogRef = this.dialog.open(ConfirmationDialog, {
       data: {
-        titulo: 'Falha',
-        mensagem: `Houve um erro no momento da inclusão`,
+        titulo: `Erro ao ${acao}`,
+        mensagem: erro.message,
         textoBotoes: {
           ok: 'ok',
         },
@@ -73,5 +94,37 @@ export class FormProdutoComponent {
     });
 
   }
+
+  private prepararEdicao() {
+    const paramCodigo = this.route.snapshot.paramMap.get('produtoCodigo');
+    if (paramCodigo) {
+      const codigo = parseInt(paramCodigo);
+      console.log("codigo", paramCodigo);
+      this.produtoService.obterPorCodigo({produtoCodigo: codigo}).subscribe(
+        retorno => {
+          this.acao = this.ACAO_ALTERAR;
+          console.log("retorno", retorno);
+          this.codigo = retorno.produtoCodigo || 0;
+          this.formGroup.patchValue(retorno);
+        }
+      )
+    }
+  }
+  private realizarEdicao() {
+    this.produtoService.alterar({produtoCodigo: this.codigo, body: this.formGroup.value})
+      .subscribe(retorno => {
+        this.confirmarAcao(retorno, this.ACAO_ALTERAR);
+        this.atualizar();
+      }, erro => {
+        this.showError(erro.error, this.ACAO_ALTERAR);
+      })
+  }
+
+  atualizar() {
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      this.router.navigateByUrl('/home/cadastroProduto');
+    });
+  }
+
 
 }

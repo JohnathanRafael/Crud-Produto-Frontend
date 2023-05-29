@@ -100,7 +100,8 @@ export class ProdutoControllerService extends BaseService {
   },
   context?: HttpContext
 
-): Observable<StrictHttpResponse<ProdutoDto>> {
+): Observable<StrictHttpResponse<{
+}>> {
 
     const rb = new RequestBuilder(this.rootUrl, ProdutoControllerService.AlterarPath, 'put');
     if (params) {
@@ -109,13 +110,14 @@ export class ProdutoControllerService extends BaseService {
     }
 
     return this.http.request(rb.build({
-      responseType: 'blob',
-      accept: '*/*',
+      responseType: 'json',
+      accept: 'application/json',
       context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ProdutoDto>;
+        return r as StrictHttpResponse<{
+        }>;
       })
     );
   }
@@ -134,10 +136,13 @@ export class ProdutoControllerService extends BaseService {
   },
   context?: HttpContext
 
-): Observable<ProdutoDto> {
+): Observable<{
+}> {
 
     return this.alterar$Response(params,context).pipe(
-      map((r: StrictHttpResponse<ProdutoDto>) => r.body as ProdutoDto)
+      map((r: StrictHttpResponse<{
+}>) => r.body as {
+})
     );
   }
 
@@ -159,7 +164,7 @@ export class ProdutoControllerService extends BaseService {
   },
   context?: HttpContext
 
-): Observable<StrictHttpResponse<ProdutoDto>> {
+): Observable<StrictHttpResponse<any>> {
 
     const rb = new RequestBuilder(this.rootUrl, ProdutoControllerService.RemoverPath, 'delete');
     if (params) {
@@ -167,13 +172,13 @@ export class ProdutoControllerService extends BaseService {
     }
 
     return this.http.request(rb.build({
-      responseType: 'blob',
-      accept: '*/*',
+      responseType: 'json',
+      accept: 'application/json',
       context: context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ProdutoDto>;
+        return r as StrictHttpResponse<any>;
       })
     );
   }
@@ -191,10 +196,10 @@ export class ProdutoControllerService extends BaseService {
   },
   context?: HttpContext
 
-): Observable<ProdutoDto> {
+): Observable<any> {
 
     return this.remover$Response(params,context).pipe(
-      map((r: StrictHttpResponse<ProdutoDto>) => r.body as ProdutoDto)
+      map((r: StrictHttpResponse<any>) => r.body as any)
     );
   }
 

@@ -16,7 +16,7 @@ import {
   styleUrls: ['./listProduto.component.scss']
 })
 export class ListProdutoComponent implements OnInit{
-    colunasMostrar = ['produtoCodigo', 'produtoNome', 'produtoValorVenda','produtoValorCusto', 'statusProduto', 'excluir'];
+    colunasMostrar = ['produtoCodigo', 'produtoNome', 'produtoMarca', 'produtoValorVenda','produtoValorCusto', 'statusProduto', 'produtolancamento', 'excluir', 'alterar'];
     produtoLista : MatTableDataSource<ProdutoListaDto> = new MatTableDataSource<ProdutoListaDto>([]);
 
   constructor(

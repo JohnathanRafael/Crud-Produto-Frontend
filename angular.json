@@ -103,8 +103,5 @@
   },
   "cli": {
     "analytics": "0344ed8f-abec-4ab3-80a2-d5c1c98bd594"
-  },
-  "styles": [
-    "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
-  ]
+  }
 }

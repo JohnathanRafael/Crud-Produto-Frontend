@@ -11,13 +11,18 @@
       <td mat-cell *matCellDef="let element"> {{element.produtoNome}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="produtoMarca">
+      <th mat-header-cell *matHeaderCellDef> Marca </th>
+      <td mat-cell *matCellDef="let element"> {{element.produtoMarca}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="produtoValorVenda">
-      <th mat-header-cell *matHeaderCellDef> Vl. Venda </th>
+      <th mat-header-cell *matHeaderCellDef> Preço Venda (R$)</th>
       <td mat-cell *matCellDef="let element">  {{element.produtoValorVenda}} </td>
     </ng-container>
 
     <ng-container matColumnDef="produtoValorCusto">
-      <th mat-header-cell *matHeaderCellDef> Vl. Custo </th>
+      <th mat-header-cell *matHeaderCellDef> Preço Custo (R$)</th>
       <td mat-cell *matCellDef="let element"> {{element.produtoValorCusto}} </td>
     </ng-container>
 
@@ -26,11 +31,25 @@
       <td mat-cell *matCellDef="let element"> {{element.statusProduto}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="produtolancamento">
+      <th mat-header-cell *matHeaderCellDef> Data de Lançamento </th>
+      <td mat-cell *matCellDef="let element"> {{element.produtolancamento}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="excluir">
       <th mat-header-cell *matHeaderCellDef> Excluir </th>
       <td mat-cell *matCellDef="let element">
         <button mat-raised-button (click)="confirmarExcluir(element)">
           <mat-icon>delete_forever</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="alterar">
+      <th mat-header-cell *matHeaderCellDef> Alterar </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button [routerLink] = "['/home/cadastroProduto',element.produtoCodigo]">
+          <mat-icon>edit</mat-icon>
         </button>
       </td>
     </ng-container>
